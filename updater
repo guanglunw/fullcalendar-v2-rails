@@ -1,0 +1,91 @@
+#!/usr/bin/env ruby
+
+require './lib/fullcalendar/v2/rails/version'
+require 'net/http'
+
+class Updater
+	def initialize()
+		@fullcalendar_page              = %w(arshaw.com /fullcalendar/download/)
+		@fullcalendar_version_regex     = /https:\/\/github.com\/arshaw\/fullcalendar\/releases\/download\/v(\d\.\d\.\d)\/fullcalendar-2.0.2.zip/
+		@current_full_calendar_version  = Fullcalendar::V2::Rails::VERSION
+		@files                          = {
+			javascripts: %w(*.js lang),
+			stylesheets: ['*.css']
+		}
+	end
+
+	def run
+		src = Net::HTTP.get(@fullcalendar_page[0], @fullcalendar_page[1])
+		mathes = src.match @fullcalendar_version_regex
+		if not mathes.captures.empty?
+			if Gem::Version.new(mathes.captures[0]) > Gem::Version.new(@current_full_calendar_version)
+				update mathes.captures[0]
+			else
+				puts 'No update required'
+			end
+		else
+			raise 'No Version found'
+		end
+	end
+
+	def update(version)
+		update_version version
+		update_files version
+		update_release
+	end
+
+	def update_files(version)
+		zip = downlaod_zipball version
+		clear_assets
+		puts '[*] Unziping'
+		%x{unzip #{zip} -d ./tmp/content}
+		dir = './tmp/content/fullcalendar-' + version
+		@files.keys.each do |directory|
+			files = @files[directory]
+			puts '[*] Copying ' + directory.to_s
+			files.each do |file|
+				puts "cp -r #{dir}/#{file} ./vendor/assets/#{directory.to_s}"
+			end
+		end
+	end
+
+	def update_version version
+		version_rb = "module Fullcalendar
+			module V2
+				module Rails
+					VERSION = '#{version}'
+				end
+			end
+		end"
+		file = open('./lib/fullcalendar/v2/rails/version', 'w')
+		file.write version_rb
+		file.close
+	end
+
+	def update_release
+		puts 'rake release'
+		puts %x{bundle exec rake release}
+	end
+
+	def clear_assets
+		puts '[*] Cleaning assets'
+		%x{rm -rf ./vendor/assets/javascripts/* ./vendor/assets/stylesheets/*}
+	end
+
+	def downlaod_zipball(version)
+		puts '[*] Removing ./tmp'
+		%x{rm -rf ./tmp ; mkdir ./tmp}
+		puts '[*] Downloading zip file'
+		file = './tmp/fullcalendar-'+ version + '.zip'
+		%x{wget -qO #{file} -- '#{zip_url version}'}
+		file
+	end
+
+	def zip_url(version)
+		'https://github.com/arshaw/fullcalendar/releases/download/v' + version + '/fullcalendar-'+ version + '.zip'
+	end
+end
+
+
+updater = Updater.new
+updater.run
