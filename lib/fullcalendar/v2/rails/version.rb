@@ -1,7 +1,7 @@
 module Fullcalendar
-  module V2
-    module Rails
-      VERSION = "0.0.1"
-    end
-  end
+	module V2
+		module Rails
+			VERSION = '2.0.2'
+		end
+	end
 end
