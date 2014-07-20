@@ -29,14 +29,14 @@ class Updater
 	end
 
 	def update(version)
-		update_version version
 		update_files version
+		update_version version
 		update_release
 	end
 
 	def update_files(version)
 		zip = downlaod_zipball version
-		clear_assets
+		# clear_assets
 		puts '[*] Unziping'
 		%x{unzip #{zip} -d ./tmp/content}
 		dir = './tmp/content/fullcalendar-' + version
@@ -44,7 +44,8 @@ class Updater
 			files = @files[directory]
 			puts '[*] Copying ' + directory.to_s
 			files.each do |file|
-				%x{cp -r #{dir}/#{file} ./vendor/assets/#{directory.to_s}}
+				puts "cp -r #{dir}/#{file} ./vendor/assets/#{directory.to_s}/fullcalendar"
+				%x{cp -r #{dir}/#{file} ./vendor/assets/#{directory.to_s}/fullcalendar}
 			end
 		end
 	end
@@ -61,7 +62,7 @@ end"
 		file.write version_rb
 		file.close
 		puts 'git commit'
-		%x{git add ./lib/fullcalendar/v2/rails/version.rb ./vendor/assets/}
+		%x{git add --all ./lib/fullcalendar/v2/rails/version.rb ./vendor/assets/}
 		%x{git commit -m "Version #{version}"}
 	end
 
@@ -72,7 +73,7 @@ end"
 
 	def clear_assets
 		puts '[*] Cleaning assets'
-		%x{rm -rf ./vendor/assets/javascripts/* ./vendor/assets/stylesheets/*}
+		%x{rm -rf ./vendor/assets/javascripts/fullcalendar/* ./vendor/assets/stylesheets/fullcalendar/*}
 	end
 
 	def downlaod_zipball(version)
