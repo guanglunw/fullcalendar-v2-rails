@@ -44,7 +44,7 @@ class Updater
 			files = @files[directory]
 			puts '[*] Copying ' + directory.to_s
 			files.each do |file|
-				puts "cp -r #{dir}/#{file} ./vendor/assets/#{directory.to_s}"
+				%x{cp -r #{dir}/#{file} ./vendor/assets/#{directory.to_s}}
 			end
 		end
 	end
