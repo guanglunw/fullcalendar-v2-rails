@@ -20,4 +20,16 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### CSS
+* For instance, in your application.css: `*= require fullcalendar/fullcalendar`
+* If you want `fullcalendar.print` : `*= require fullcalendar/fullcalendar.print`
+
+### JS
+* And in your application.js: `//= require fullcalendar/fullcalendar`
+* For the locale file : `//= require fullcalendar/lang/en`
+
+### Also available
+* `//= require fullcalendar/gcal`
+* `//= require fullcalendar/lang-all.js`
+* `//= require fullcalendar/fullcalendar.min`
+
