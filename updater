@@ -51,15 +51,18 @@ class Updater
 
 	def update_version version
 		version_rb = "module Fullcalendar
-			module V2
-				module Rails
-					VERSION = '#{version}'
-				end
-			end
-		end"
-		file = open('./lib/fullcalendar/v2/rails/version', 'w')
+	module V2
+		module Rails
+			VERSION = '#{version}'
+		end
+	end
+end"
+		file = open('./lib/fullcalendar/v2/rails/version.rb', 'w')
 		file.write version_rb
 		file.close
+		puts 'git commit'
+		%x{git add ./lib/fullcalendar/v2/rails/version.rb ./vendor/assets/}
+		%x{git commit -m "Version #{version}"}
 	end
 
 	def update_release
