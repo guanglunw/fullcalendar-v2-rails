@@ -28,6 +28,10 @@ Or install it yourself as:
 * And in your application.js: `//= require fullcalendar/fullcalendar`
 * For the locale file : `//= require fullcalendar/lang/en`
 
+### MomentJS
+* If you don't use `moment.js` in your app: `//= require moment`
+* For the moment locale : `//= require moment/fr`
+
 ### Also available
 * `//= require fullcalendar/gcal`
 * `//= require fullcalendar/lang-all.js`
