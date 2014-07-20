@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["hervetg@gmail.com"]
   spec.summary       = %q{The fullcalendar JavaScript plugin ready to play with the Rails Asset Pipeline.}
   # spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = 'https://github.com/GeoffreyHervet/fullcalendar2-rails'
+  spec.homepage      = 'https://github.com/GeoffreyHervet/fullcalendar-v2-rails'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
