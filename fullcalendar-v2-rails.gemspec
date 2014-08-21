@@ -5,6 +5,7 @@ require 'fullcalendar/v2/rails/version'
 require 'momentjs/rails/version'
 
 Gem::Specification.new do |spec|
+
   spec.name          = "fullcalendar-v2-rails"
   spec.version       = Fullcalendar::V2::Rails::VERSION
   spec.authors       = ["Geoffrey Hervet"]

@@ -15,17 +15,17 @@ class Updater
 	end
 
 	def run
-		src = Net::HTTP.get(@fullcalendar_page[0], @fullcalendar_page[1])
-		mathes = src.match @fullcalendar_version_regex
-		if not mathes.captures.empty?
-			if Gem::Version.new(mathes.captures[0]) > Gem::Version.new(@current_full_calendar_version)
-				update mathes.captures[0]
-			else
-				puts 'No update required'
-			end
-		else
-			raise 'No Version found'
-		end
+	#	src = Net::HTTP.get(@fullcalendar_page[0], @fullcalendar_page[1])
+	#	matches = src.match @fullcalendar_version_regex
+	#	if not matches.captures.empty?
+	#		if Gem::Version.new(mathes.captures[0]) > Gem::Version.new(@current_full_calendar_version)
+				update '2.0.3'
+	#		else
+	#			puts 'No update required'
+	#		end
+	#	else
+	#		raise 'No Version found'
+	#	end
 	end
 
 	def update(version)
