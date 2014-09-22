@@ -19,7 +19,8 @@ class Updater
 	#	matches = src.match @fullcalendar_version_regex
 	#	if not matches.captures.empty?
 	#		if Gem::Version.new(mathes.captures[0]) > Gem::Version.new(@current_full_calendar_version)
-				update '2.0.3'
+                                update ARGV[1]
+	#			update '2.1.1'
 	#		else
 	#			puts 'No update required'
 	#		end
@@ -90,6 +91,6 @@ end"
 	end
 end
 
-
+raise './updater $VERSION' unless ARGV.length == 1
 updater = Updater.new
 updater.run
